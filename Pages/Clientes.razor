@@ -1,16 +1,50 @@
 ﻿@page "/clientes"
-@using ProgressFrontEnd.Models
+@using ProgressFrontEnd.Models.Cliente
 @using Progress_Front_End.Components
+@inject HttpClient Http
 
 <PageTitle>Clientes</PageTitle>
 <section class="container d-flex flex-column align-items-center">
     <h1 class="p-3">Clientes</h1>
     <div class="p-3 border border-dark rounded shadow-lg overflow-auto" style="max-width: 100%; width: 50rem; max-height: 38rem">
-       
+        @if (clientes == null)
+        {
+            <h3 class="text-center text-danger">Erro: @_erroMessage</h3>
+        }
+        else
+        {
+            <ul>
+                @foreach (var c in clientes.clientes)
+                {
+                    <ShortInfoCliente
+                        Cnpj="@c.CNPJ"
+                        Endereco="@c.Endereco"
+                        RazaoSocial="@c.RazaoSocial"
+                        NomeFantasia="@c.NomeFantasia"
+                        Telefone="@c.Telefone"
+                        ProximaVisita="@c.ProximaVisita"
+                     />
+                }
+            </ul>
+        }
     </div>
 
 
 </section>
 @code {
+    private ResponseShortClientesJson clientes { get; set; }
+    private string _erroMessage { get; set; } = "";
 
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            clientes = await Http.GetFromJsonAsync<ResponseShortClientesJson>("https://localhost:7044/progress/clientes");
+        }
+        catch (Exception ex)
+        {
+            _erroMessage = ex.Message;
+        }
+
+    }
 }
