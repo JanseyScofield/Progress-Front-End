@@ -1,0 +1,23 @@
+﻿<div class="d-flex flex-column p-4 mt-2 border border-dark rounded-3">
+    <h3 class="text-start">@NomeFantasia</h3>
+    <div class="d-flex justify-content-center">
+        <ul>
+            <li>CNPJ: @Cnpj</li>
+            <li>Razão Social: @RazaoSocial</li>
+        </ul>
+        <ul>
+            <li>Endereço: @Endereco</li>
+            <li>Telefone: @Telefone</li>
+        </ul>
+    </div>
+    <p class="text-center">Data da próxima visita: @ProximaVisita.ToString("dd/MM/yyyy")</p>
+</div>
+
+@code {
+    [Parameter] public string Cnpj { get; set; }
+    [Parameter] public string Endereco { get; set; }
+    [Parameter] public string RazaoSocial { get; set; }
+    [Parameter] public string NomeFantasia { get; set; }
+    [Parameter] public string Telefone { get; set; }
+    [Parameter] public DateTime ProximaVisita { get; set; }
+}
