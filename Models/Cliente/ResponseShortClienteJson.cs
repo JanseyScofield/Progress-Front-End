@@ -1,6 +1,6 @@
-﻿namespace ProgressFrontEnd.Models
+﻿namespace ProgressFrontEnd.Models.Cliente
 {
-    public class ResponseShortClientesJson
+public class ResponseShortClienteJson
     {
         public string CNPJ { get; set; }
         public string Endereco { get; set; }
