@@ -1,0 +1,66 @@
+﻿@page "/clientes"
+@using ProgressFrontEnd.Models.Cliente
+@inject HttpClient Http
+
+<PageTitle>Clientes</PageTitle>
+<section class="container d-flex flex-column align-items-center">
+    <h1 class="p-1 text-primary" style="font-size: 3rem;">Clientes</h1>
+    <div class="p-3 border border-dark rounded shadow-lg overflow-auto" style="max-width: 100%; width: 50rem; max-height: 38rem">
+        @if (clientes == null)
+        {
+            <h3 class="text-center text-danger">Erro: @_erroMessage</h3>
+        }
+        else if(clientes.clientes.Count == 0)
+        {
+            <h3 class="text-center">Ainda não há clientes cadastrados</h3>    
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">CNPJ</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Raz.Social</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col">Endereço</th>
+                        <th scope="col">Prox.Visita</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in clientes.clientes)
+                    {
+                        <tr>
+                            <th scope="row">@c.CNPJ</th>
+                            <td>@c.NomeFantasia</td>
+                            <td>@c.RazaoSocial</td>
+                            <td>@c.RazaoSocial</td>
+                            <td>@c.Endereco</td>
+                            <td>@c.ProximaVisita.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        }
+    </div>
+
+
+</section>
+@code {
+    private ResponseShortClientesJson clientes { get; set; }
+    private string _erroMessage { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            clientes = await Http.GetFromJsonAsync<ResponseShortClientesJson>("https://localhost:7044/progress/clientes");
+        }
+        catch (Exception ex)
+        {
+            _erroMessage = ex.Message;
+        }
+
+    }
+}
